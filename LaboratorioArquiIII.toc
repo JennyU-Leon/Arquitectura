@@ -1,0 +1,14 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Introducción}{2}{section.1}%
+\contentsline {section}{\numberline {2}Objetivos}{2}{section.2}%
+\contentsline {section}{\numberline {3}Marco Teórico}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Unidad Aritmético-Lógica (ALU)}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Operadores Lógicos}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Operadores Aritméticos}{3}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Multiplexor de 8 a 1 de 8 bits}{3}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Descripción del Desarrollo}{3}{section.4}%
+\contentsline {section}{\numberline {5}Resultados}{4}{section.5}%
+\contentsline {section}{\numberline {6}Análisis y Discusión}{4}{section.6}%
+\contentsline {section}{\numberline {7}Conclusiones}{4}{section.7}%
+\contentsline {section}{\numberline {8}Enlace a la Carpeta Compartida}{5}{section.8}%
+\contentsline {section}{\numberline {9}Referencias}{5}{section.9}%
