@@ -25,8 +25,8 @@
     Ing. Jonathan Roberto Torres Castillo, PhD. \\[1cm]
     
     \textbf{Estudiantes:} \\
-    Nombre del Estudiante 1 \\
-    Nombre del Estudiante 2 \\[2cm]
+    Juan Camilo Carvajal Camargo \\
+    Jenny Vanesa Leon Pinto \\[2cm]
     
     \vfill
     {\large 03 de octubre de 2026}
@@ -99,7 +99,7 @@ En esta sección se detallan los pasos seguidos para el diseño e implementació
     \item \textbf{Componentes Básicos (Operaciones Lógicas):} Implementación mediante compuertas AND, OR, XOR, NOT y XNOR dispuestas en paralelo para buses de 8 bits[cite: 7].
     \item \textbf{Sumador y Restador de 8 bits:} Encadenamiento en configuración \textit{ripple-carry} de 8 sumadores completos de 1 bit[cite: 7]. Para la resta, se configuró la inversión de $B$ con $C_{in} = 1$[cite: 8].
     \item \textbf{Multiplicador de 8 bits:} Diseñado mediante productos parciales y desplazamientos estructurales[cite: 8].
-    \item \textbf{Multiplexor y Integración:} Se acoplaron las salidas de las operaciones al MUX de 8 a 1 controlado por el Opcode $(S_2 S_1 S_0)$[cite: 8].
+    \item \textbf{Multiplexor e Integración:} Se acoplaron las salidas de las operaciones al MUX de 8 a 1 controlado por el Opcode $(S_2 S_1 S_0)$[cite: 8].
 \end{enumerate}
 
 % --- 5. RESULTADOS ---
@@ -120,7 +120,7 @@ A continuación se relacionan las operaciones de la ALU según el Opcode[cite: 9
         Resta & 101 \\
         Suma & 110 \\
         Multiplicación & 111 \\
-        \bottom.
+        \bottomrule
     \end{tabular}
     \caption{Codificación del Opcode para la ALU[cite: 9]}
     \label{tab:opcode}
