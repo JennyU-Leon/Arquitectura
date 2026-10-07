@@ -27,7 +27,7 @@
     
     \textbf{Estudiantes:} \\
     Juan Camilo Carvajal Camargo \\
-    Jenny Vanesa Leon Pinto \\[2cm]
+    Jenny Vanesa Leon Pinto \\Joan Sebastian Duran Pradilla\\[2cm]
     
     \vfill
     {\large 03 de octubre de 2026}
@@ -41,31 +41,40 @@
 
 % --- 1. INTRODUCCIÓN ---
 \section{Introducción}
+
 La Unidad Aritmético-Lógica (ALU) constituye un componente fundamental en la arquitectura de los sistemas digitales[cite: 1], al encargarse de la ejecución de operaciones aritméticas y lógicas sobre datos binarios. Su diseño se basa en la integración de circuitos combinacionales que implementan funciones booleanas específicas, permitiendo la realización de operaciones como suma, resta y operaciones lógicas básicas (AND, OR, NOT, entre otras)[cite: 1].
 
-Desde una perspectiva de diseño digital, la construcción de una ALU implica la descomposición de operaciones complejas en bloques funcionales elementales, los cuales pueden ser implementados mediante compuertas lógicas[cite: 1, 2]. Este enfoque permite comprender la relación entre las expresiones algebraicas booleanas, su representación mediante tablas de verdad y su materialización en circuitos físicos[cite: 2].
+Desde una perspectiva de diseño digital, la construcción de una ALU implica la descomposición de operaciones complejas en bloques funcionales elementales, los cuales pueden ser implementados mediante compuertas lógicas[cite: 2]. Este enfoque permite comprender la relación entre las expresiones algebraicas booleanas, su representación mediante tablas de verdad y su materialización en circuitos físicos[cite: 2].
 
 En esta práctica se aborda el diseño e implementación de una ALU de 8 bits utilizando exclusivamente compuertas lógicas y circuitos combinacionales, sin recurrir a bloques predefinidos[cite: 2]. Esto permite analizar de manera estructurada la construcción de sumadores, unidades lógicas y mecanismos de selección de operaciones, integrándolos en un sistema funcional que emula el comportamiento básico de una ALU[cite: 2].
 
+Además, el proceso de implementación permite comprobar experimentalmente la relación existente entre el diseño lógico y su comportamiento mediante simulación. Cada módulo es desarrollado y probado de manera independiente antes de realizar su integración, con el propósito de identificar y corregir posibles errores en las conexiones, propagación de acarreos y selección de operaciones.
+
 % --- 2. OBJETIVOS ---
 \section{Objetivos}
+
 \begin{itemize}
     \item Comprender la estructura funcional de una ALU de 8 bits[cite: 2].
     \item Diseñar y construir circuitos combinacionales para operaciones aritmético-lógicas[cite: 2].
     \item Implementar un multiplexor de 8 a 1 de 8 bits sin componentes predefinidos[cite: 2].
     \item Integrar todos los módulos en un circuito completo de ALU[cite: 2].
     \item Evaluar el funcionamiento de la ALU mediante casos de prueba[cite: 2].
+    \item Analizar las limitaciones asociadas al procesamiento de datos de 8 bits, incluyendo la generación de acarreo y posibles desbordamientos.
 \end{itemize}
 
 % --- 3. MARCO TEÓRICO ---
 \section{Marco Teórico}
+
 Los sistemas digitales se fundamentan en la manipulación de información binaria mediante circuitos combinacionales, los cuales implementan funciones booleanas a partir de compuertas lógicas[cite: 2]. 
 
 \subsection{Unidad Aritmético-Lógica (ALU)}
+
 La ALU es un bloque funcional encargado de ejecutar operaciones aritméticas y lógicas sobre datos binarios[cite: 2]. Su operación se basa en la recepción de operandos y una señal de control, la cual determina la operación que se debe realizar[cite: 2]. Es un circuito de tipo combinacional, lo que implica que sus salidas dependen únicamente de los valores actuales de sus entradas[cite: 2].
 
 \subsection{Operadores Lógicos}
+
 Los operadores lógicos permiten realizar transformaciones directas sobre variables binarias mediante reglas del álgebra de Boole, aplicándose bit a bit[cite: 3]:
+
 \begin{itemize}
     \item \textbf{AND:} $Y_i = A_i \cdot B_i$[cite: 3]
     \item \textbf{OR:} $Y_i = A_i + B_i$[cite: 3]
@@ -74,37 +83,220 @@ Los operadores lógicos permiten realizar transformaciones directas sobre variab
     \item \textbf{XNOR:} $Y_i = A_i B_i + \overline{A_i} \overline{B_i}$[cite: 3]
 \end{itemize}
 
+Estas operaciones se implementan de forma independiente para cada uno de los ocho bits de los operandos. Por lo tanto, una operación lógica sobre dos operandos de 8 bits puede interpretarse como la ejecución simultánea de ocho operaciones binarias de un bit.
+
 \subsection{Operadores Aritméticos}
+
 \begin{itemize}
     \item \textbf{Sumador completo (Full Adder):} Circuito combinacional que permite sumar tres bits de entrada (dos operandos y un acarreo de entrada $C_{in}$), produciendo un bit de suma ($Sum$) y un acarreo de salida ($C_{out}$)[cite: 3].
+
     \begin{equation}
         Sum = A \oplus B \oplus C_{in}
     \end{equation}
+
     \begin{equation}
         C_{out} = AB + C_{in}(A \oplus B)
     \end{equation}
+
     \item \textbf{Resta en binario:} Se basa en el uso del complemento a dos, transformando la resta en una suma[cite: 3]:
+
     \begin{equation}
         A - B = A + (\overline{B} + 1)
     \end{equation}
+
     \item \textbf{Multiplicación binaria:} Se fundamenta en la generación de productos parciales mediante compuertas AND y su posterior suma con desplazamientos[cite: 4].
 \end{itemize}
 
+\subsection{Tabla de verdad del Full Adder}
+
+Para verificar el comportamiento del sumador completo utilizado como unidad básica del sumador de 8 bits, se considera la siguiente tabla de verdad:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccccc}
+        \toprule
+        $A$ & $B$ & $C_{in}$ & $Sum$ & $C_{out}$ \\
+        \midrule
+        0 & 0 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 1 & 0 \\
+        0 & 1 & 0 & 1 & 0 \\
+        0 & 1 & 1 & 0 & 1 \\
+        1 & 0 & 0 & 1 & 0 \\
+        1 & 0 & 1 & 0 & 1 \\
+        1 & 1 & 0 & 0 & 1 \\
+        1 & 1 & 1 & 1 & 1 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Tabla de verdad del sumador completo de un bit.}
+    \label{tab:fulladder}
+\end{table}
+
+La tabla permite comprobar que la salida de suma corresponde al bit menos significativo del resultado de sumar las tres entradas, mientras que $C_{out}$ representa el acarreo generado hacia la siguiente posición.
+
 \subsection{Multiplexor de 8 a 1 de 8 bits}
+
 Un multiplexor selecciona una entre 8 entradas utilizando 3 líneas de control $(S_2, S_1, S_0)$[cite: 6]. Para manejar una salida de 8 bits, se conectan 8 multiplexores en paralelo, compartiendo las mismas líneas de selección[cite: 6].
+
+En el contexto de la ALU, cada entrada del multiplexor corresponde al resultado de una operación diferente. De esta manera, el Opcode permite seleccionar cuál de los resultados calculados será enviado hacia la salida final.
 
 % --- 4. DESCRIPCIÓN DEL DESARROLLO ---
 \section{Descripción del Desarrollo}
+
 En esta sección se detallan los pasos seguidos para el diseño e implementación de cada módulo en \textbf{Logisim-Evolution}[cite: 6]:
+
 \begin{enumerate}
     \item \textbf{Componentes Básicos (Operaciones Lógicas):} Implementación mediante compuertas AND, OR, XOR, NOT y XNOR dispuestas en paralelo para buses de 8 bits[cite: 7].
+    
     \item \textbf{Sumador y Restador de 8 bits:} Encadenamiento en configuración \textit{ripple-carry} de 8 sumadores completos de 1 bit[cite: 7]. Para la resta, se configuró la inversión de $B$ con $C_{in} = 1$[cite: 8].
+    
     \item \textbf{Multiplicador de 8 bits:} Diseñado mediante productos parciales y desplazamientos estructurales[cite: 8].
+    
     \item \textbf{Multiplexor e Integración:} Se acoplaron las salidas de las operaciones al MUX de 8 a 1 controlado por el Opcode $(S_2 S_1 S_0)$[cite: 8].
 \end{enumerate}
 
+\subsection{Implementación del sumador y restador}
+
+El sumador de 8 bits se construyó mediante la conexión en cascada de ocho sumadores completos. El acarreo generado por cada etapa se conecta como entrada de acarreo de la etapa siguiente, formando una estructura de tipo \textit{ripple-carry}.
+
+La estructura general puede representarse mediante la siguiente cadena:
+
+\[
+C_0 \rightarrow FA_0 \rightarrow C_1 \rightarrow FA_1 \rightarrow C_2
+\rightarrow \cdots \rightarrow FA_7 \rightarrow C_8
+\]
+
+donde cada $FA_i$ representa un sumador completo correspondiente a una posición de bit.
+
+Para permitir que la misma estructura sea utilizada tanto para suma como para resta, se emplea el complemento a dos. En este caso, la operación puede controlarse mediante una señal denominada $SUB$:
+
+\begin{equation}
+B'_i = B_i \oplus SUB
+\end{equation}
+
+y:
+
+\begin{equation}
+C_0 = SUB
+\end{equation}
+
+Cuando $SUB=0$, se obtiene:
+
+\[
+B'_i = B_i
+\]
+
+y:
+
+\[
+C_0=0
+\]
+
+por lo que la operación corresponde a:
+
+\[
+A+B
+\]
+
+Por otro lado, cuando $SUB=1$:
+
+\[
+B'_i = \overline{B_i}
+\]
+
+y:
+
+\[
+C_0=1
+\]
+
+por lo que el circuito realiza:
+
+\[
+A+\overline{B}+1
+\]
+
+que corresponde al complemento a dos de $B$ y, por tanto, a la operación:
+
+\[
+A-B
+\]
+
+Esta configuración permite reutilizar el mismo conjunto de sumadores completos para realizar ambas operaciones, reduciendo la cantidad de componentes necesarios.
+
+% --- 4.1 ARQUITECTURA GENERAL ---
+\subsection{Arquitectura general de la ALU}
+
+La ALU desarrollada está compuesta por diferentes módulos funcionales que trabajan de manera paralela. Los operandos de entrada $A$ y $B$ son suministrados simultáneamente a los bloques que implementan las operaciones lógicas y aritméticas.
+
+Cada módulo genera un resultado independiente de 8 bits. Posteriormente, todos estos resultados son conectados a las entradas del multiplexor de 8 a 1. Las líneas de selección $S_2$, $S_1$ y $S_0$ determinan cuál de los ocho resultados es enviado hacia la salida $F$.
+
+De manera conceptual, la arquitectura puede representarse como:
+
+\begin{verbatim}
+                    ┌───────────┐
+A[7:0] ─────────────►           │
+B[7:0] ─────────────► Operación │───► Resultado 0
+                    │    AND    │
+                    └───────────┘
+
+                    ┌───────────┐
+A[7:0] ─────────────►           │
+B[7:0] ─────────────► Operación │───► Resultado 1
+                    │     OR    │
+                    └───────────┘
+
+                         ...
+                         
+                    ┌───────────┐
+A[7:0] ─────────────►           │
+B[7:0] ─────────────► Operación │───► Resultado 7
+                    │    MULT   │
+                    └───────────┘
+                             
+                         │
+                         ▼
+                   ┌───────────┐
+S2 S1 S0 ─────────►│ MUX 8 : 1 │───► F[7:0]
+                   └───────────┘
+\end{verbatim}
+
+La arquitectura anterior permite que las operaciones se calculen de forma paralela, mientras que el multiplexor determina cuál de ellas será utilizada como resultado de la ALU.
+
+% --- 4.2 CODIFICACIÓN ---
+\subsection{Codificación de las operaciones}
+
+La selección de cada operación se realiza mediante tres bits de control. Al existir ocho combinaciones posibles con tres bits, es posible asignar una operación diferente a cada combinación:
+
+\[
+2^3=8
+\]
+
+Por lo tanto, las ocho operaciones implementadas pueden asociarse directamente con los ocho estados posibles del Opcode.
+
+% --- 4.3 METODOLOGÍA ---
+\subsection{Metodología de implementación}
+
+El desarrollo de la ALU se realizó de manera modular. Primero se construyeron y verificaron los componentes fundamentales, posteriormente se realizaron las conexiones entre módulos y finalmente se efectuó la integración completa.
+
+El proceso seguido fue:
+
+\begin{enumerate}
+    \item Diseño y verificación del sumador completo de un bit.
+    \item Construcción del sumador de 8 bits mediante ocho sumadores completos.
+    \item Adaptación del sumador para realizar operaciones de resta mediante complemento a dos.
+    \item Implementación de las operaciones lógicas AND, OR, XOR, NOT y XNOR.
+    \item Construcción del multiplicador mediante productos parciales y desplazamientos.
+    \item Implementación del multiplexor de 8 a 1 para seleccionar el resultado.
+    \item Integración de todos los módulos en una única ALU.
+    \item Realización de pruebas individuales para cada operación.
+    \item Realización de pruebas de integración utilizando diferentes valores de entrada y códigos de operación.
+\end{enumerate}
+
+El enfoque modular permitió identificar errores en cada componente antes de integrarlo con el resto del sistema, facilitando el proceso de depuración y validación.
+
 % --- 5. RESULTADOS ---
 \section{Resultados}
+
 A continuación se relacionan las operaciones de la ALU según el Opcode[cite: 9]:
 
 \begin{table}[H]
@@ -129,29 +321,152 @@ A continuación se relacionan las operaciones de la ALU según el Opcode[cite: 9
 
 \noindent Se verificó exitosamente el funcionamiento de la simulación. Por ejemplo, al realizar una multiplicación con las entradas $A = 00000011_2$ ($3_{10}$) y $B = 00000100_2$ ($4_{10}$) bajo el Opcode $111$, se obtuvo la salida correcta $F = 00001100_2$ ($12_{10}$)[cite: 9].
 
+\subsection{Casos de prueba}
+
+Con el propósito de verificar el comportamiento de la ALU, se realizaron diferentes casos de prueba para las operaciones implementadas. Los resultados esperados fueron calculados previamente de forma independiente y posteriormente comparados con los resultados obtenidos en Logisim-Evolution.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabular}{cccccc}
+        \toprule
+        $A$ & $B$ & Opcode & Operación & Resultado esperado & Resultado obtenido \\
+        \midrule
+        10101010 & 11001100 & 000 & AND & 10001000 & 10001000 \\
+        10101010 & 11001100 & 001 & OR & 11101110 & 11101110 \\
+        10101010 & 11001100 & 010 & XOR & 01100110 & 01100110 \\
+        10101010 & 00000000 & 011 & NOT & 01010101 & 01010101 \\
+        10101010 & 11001100 & 100 & XNOR & 10011001 & 10011001 \\
+        00001111 & 00000101 & 101 & Resta & 00001010 & 00001010 \\
+        00000111 & 00000011 & 110 & Suma & 00001010 & 00001010 \\
+        00000011 & 00000100 & 111 & Multiplicación & 00001100 & 00001100 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Casos de prueba realizados para validar la ALU.}
+    \label{tab:pruebas}
+\end{table}
+
+Los resultados obtenidos permiten verificar que cada combinación del Opcode selecciona correctamente la operación correspondiente y que la salida de la ALU coincide con el resultado esperado para los casos evaluados.
+
+\subsection{Validación de la integración}
+
+Además de comprobar individualmente los módulos, se realizó una validación de la ALU completa. En esta etapa se verificó que:
+
+\begin{itemize}
+    \item Los operandos de entrada fueran recibidos correctamente por los diferentes módulos.
+    \item Cada operación generara un resultado de 8 bits.
+    \item Las ocho salidas estuvieran correctamente conectadas al multiplexor.
+    \item Las líneas $S_2$, $S_1$ y $S_0$ seleccionaran la operación correspondiente.
+    \item La salida final $F$ coincidiera con el resultado esperado.
+\end{itemize}
+
+Esta estrategia permitió comprobar tanto el funcionamiento individual de los módulos como su comportamiento conjunto dentro de la ALU.
+
 % --- 6. ANÁLISIS Y DISCUSIÓN ---
 \section{Análisis y Discusión}
-El diseño modular implementado permitió aislar posibles fallas en cada bloque antes de la integración final con el multiplexor[cite: 7, 8]. Una de las principales dificultades técnicas radicó en la correcta propagación del acarreo en el sumador/restador de 8 bits y en la gestión de los desplazamientos para la multiplicación[cite: 7, 8]. No obstante, el uso de circuitos combinacionales puros garantizó respuestas síncronas estables sin retardos secuenciales indeseados.
+
+El diseño modular implementado permitió aislar posibles fallas en cada bloque antes de la integración final con el multiplexor[cite: 7, 8]. Una de las principales dificultades técnicas radicó en la correcta propagación del acarreo en el sumador/restador de 8 bits y en la gestión de los desplazamientos para la multiplicación[cite: 7, 8].
+
+La utilización de una arquitectura basada en módulos independientes facilitó el proceso de depuración, ya que cada operación pudo ser comprobada antes de conectarse al multiplexor. Esto resulta especialmente importante en circuitos combinacionales de mayor tamaño, donde un error de conexión puede afectar el comportamiento de varias operaciones simultáneamente.
+
+En el caso del sumador de 8 bits, la configuración \textit{ripple-carry} presenta la ventaja de utilizar una estructura relativamente sencilla y fácil de implementar. Sin embargo, el acarreo debe propagarse desde el bit menos significativo hasta el más significativo, por lo que el tiempo de respuesta depende de la cadena de sumadores.
+
+La propagación puede representarse mediante:
+
+\[
+C_0 \rightarrow C_1 \rightarrow C_2 \rightarrow C_3
+\rightarrow \cdots \rightarrow C_8
+\]
+
+Por esta razón, aunque la ALU implementada es un circuito combinacional, no debe interpretarse que carece de retardos. Las compuertas lógicas y los sumadores presentan retardos de propagación que pueden influir en el tiempo necesario para estabilizar la salida después de un cambio en las entradas.
+
+El multiplexor cumple una función fundamental dentro de la arquitectura, debido a que permite consolidar los resultados de ocho operaciones diferentes en una única salida de 8 bits. De esta forma, los diferentes módulos pueden trabajar de manera paralela y el Opcode determina cuál resultado será presentado al usuario.
+
+% --- 6.1 LIMITACIONES ---
+\subsection{Limitaciones del diseño}
+
+Una de las principales limitaciones de una ALU de 8 bits está relacionada con el rango de valores que puede representar. Para números sin signo, un bus de 8 bits permite representar valores entre:
+
+\[
+0 \leq N \leq 255
+\]
+
+Por lo tanto, algunas operaciones pueden producir resultados que requieren más de ocho bits.
+
+Por ejemplo:
+
+\[
+200+100=300
+\]
+
+Sin embargo:
+
+\[
+300_{10}=100101100_2
+\]
+
+requiere nueve bits para ser representado completamente.
+
+De manera similar, una multiplicación de dos operandos de 8 bits puede producir un resultado de hasta 16 bits. El valor máximo posible es:
+
+\[
+255\times255=65025
+\]
+
+Por tanto, si la salida de la ALU se mantiene limitada a 8 bits, los resultados que superen dicho rango requieren un tratamiento adicional, como la utilización de bits de acarreo o una salida de mayor tamaño.
+
+En la implementación desarrollada, la salida principal se mantiene en 8 bits, por lo que el comportamiento de los resultados que exceden este rango debe considerarse durante las pruebas.
+
+\subsection{Retardos de propagación}
+
+Aunque la ALU corresponde a un circuito combinacional, las señales no se propagan de manera instantánea a través de las compuertas. Cada componente posee un retardo de propagación que se acumula cuando existen varias etapas conectadas en serie.
+
+Este efecto resulta especialmente relevante en el sumador de tipo \textit{ripple-carry}, ya que cada sumador completo debe esperar el acarreo producido por la etapa anterior.
+
+En consecuencia, el diseño implementado prioriza la simplicidad estructural y la facilidad de comprensión sobre arquitecturas de suma más rápidas, como los sumadores con anticipación de acarreo (\textit{carry look-ahead}).
 
 % --- 7. CONCLUSIONES ---
 \section{Conclusiones}
+
 \begin{itemize}
     \item La implementación jerárquica demostró que es posible construir sistemas complejos de procesamiento aritmético-lógico partiendo de compuertas básicas elementales[cite: 2, 7].
+    
     \item El uso del complemento a dos optimizó los recursos de hardware al reutilizar la estructura del sumador de 8 bits para ejecutar operaciones de resta[cite: 3, 8].
+    
     \item La arquitectura basada en un multiplexor de 8 a 1 permitió consolidar múltiples rutas de datos independientes en una única salida controlada mediante líneas de selección estables[cite: 6, 8].
+    
+    \item La implementación modular facilitó la verificación individual de cada componente antes de realizar la integración completa de la ALU.
+    
+    \item Las pruebas realizadas permitieron comprobar que las operaciones seleccionadas mediante el Opcode producen los resultados esperados para los casos evaluados.
+    
+    \item El desarrollo permitió evidenciar que el diseño de una ALU no consiste únicamente en conectar operaciones aritméticas y lógicas, sino también en establecer mecanismos adecuados de selección, propagación de señales y control de los resultados.
+    
+    \item Finalmente, se identificó que una arquitectura de 8 bits presenta limitaciones relacionadas con el rango de representación y el desbordamiento, especialmente en operaciones aritméticas como la suma y la multiplicación.
 \end{itemize}
 
 % --- 8. ENLACE A CARPETA ---
 \section{Enlace a la Carpeta Compartida}
+
 \url{https://github.com/} \textit{(Reemplazar con el enlace real al archivo .circ en Logisim)}[cite: 10, 11]
 
 % --- 9. REFERENCIAS ---
 \section{Referencias}
+
 \begin{thebibliography}{9}
-    \bibitem{mano2017} Mano, M. M., \& Ciletti, M. D. (2017). \textit{Digital Design} (6th ed.). Pearson[cite: 13].
-    \bibitem{floyd2019} Floyd, T. L. (2019). \textit{Digital Fundamentals} (11th ed.). Pearson[cite: 13].
-    \bibitem{roth2015} Roth, C. H., \& Kinney, L. L. (2015). \textit{Fundamentals of Logic Design} (7th ed.). Cengage Learning[cite: 13].
-    \bibitem{logisim} Logisim Evolution. (n.d.). \textit{Open-source digital logic simulator}. Recuperado de \url{https://github.com/logisim-evolution/logisim-evolution}[cite: 13].
+
+    \bibitem{mano2017} Mano, M. M., \& Ciletti, M. D. (2017). 
+    \textit{Digital Design} (6th ed.). Pearson[cite: 13].
+    
+    \bibitem{floyd2019} Floyd, T. L. (2019). 
+    \textit{Digital Fundamentals} (11th ed.). Pearson[cite: 13].
+    
+    \bibitem{roth2015} Roth, C. H., \& Kinney, L. L. (2015). 
+    \textit{Fundamentals of Logic Design} (7th ed.). Cengage Learning[cite: 13].
+    
+    \bibitem{logisim} Logisim Evolution. (n.d.). 
+    \textit{Open-source digital logic simulator}. Recuperado de 
+    \url{https://github.com/logisim-evolution/logisim-evolution}[cite: 13].
+
 \end{thebibliography}
-LaboratorioArquiIII
+
 \end{document}
