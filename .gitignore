@@ -1,0 +1,15 @@
+# Archivos auxiliares de LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.nav
+*.snm
+
+# Si NO quieren rastrear el PDF en Git, descomenta la siguiente línea:
+*.pdf
